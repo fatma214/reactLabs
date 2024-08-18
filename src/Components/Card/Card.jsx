@@ -1,23 +1,24 @@
 import React  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { AddToWishList, RemoveFromWishList } from '../../Redux2/Actions/WishListAction';
+import { changeWishListCount } from '../../Redux2/Actions/WishLlistCountAction';
  
-import { changeWishListCount } from '../../Redux/Actions/NumOfWishList';
-import { addToWishlist, removeFromWishlist } from '../../Redux/Actions/WishLitstAction';
+ 
 
 export default function Card(props) {
-    const wishList = useSelector((state) => state.wishList.wishList); 
-    const numOfWishList = useSelector((state) => state.wishListCount.numOfWishList);
+    const wishList = useSelector((state) => state.myWishList.wishList); 
+    const numOfWishList = useSelector((state) => state.myWishListcount.numOfWishList);
     const dispatch = useDispatch();
     const isLiked = wishList.some(movie => movie.id === props.movie.id);
 
     const toggleLike = () => {
         if (isLiked) {
-            dispatch(removeFromWishlist(props.movie.id));
+            dispatch(RemoveFromWishList(props.movie.id));
             dispatch(changeWishListCount(numOfWishList - 1));
 
         } else {
-            dispatch(addToWishlist(props.movie));
+            dispatch(AddToWishList(props.movie));
             dispatch(changeWishListCount(numOfWishList + 1));
         }
     };
@@ -28,7 +29,8 @@ export default function Card(props) {
                 <Link to={props.navigate}>
                     <img className='w-100' src={props.imgSrc} alt="" />
                 </Link>
-                <p>{props.title}</p>
+                <h2 className='text-danger bg-info'>{props.original_name}</h2>
+                <p>{props.movie.overview}</p>
                 <i className="fa-solid fa-heart fs-3" style={{ color: isLiked ? "red" : "" }} onClick={toggleLike}></i>
             </div>
         </>

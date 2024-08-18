@@ -16,12 +16,15 @@ import NotFound from "./Components/NotFound/NotFound.jsx";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import movieDetails from "./Components/MovieDetails/MovieDetails.jsx";
 import WishList from "./Components/WishList/WishList.jsx";
-export default class App extends React.Component {
-  render() {
+import { useSelector } from "react-redux";
+export default  function App(){
+   const  mytheme=useSelector((state)=>state.myTheme.theme)
+  
     return (
       <>
         <BrowserRouter>
-          <Navbar />
+        <div className={mytheme=="light"?"bg-light text-dark":"bg-dark text-light"}>
+           <Navbar />
           <div class="container">
             <Switch>
               <Route path="/" component={Home} exact />
@@ -32,8 +35,10 @@ export default class App extends React.Component {
               <Route path="*" component={NotFound} exact />
             </Switch>
           </div>
+        </div>
+         
         </BrowserRouter>
       </>
     );
   }
-}
+ 
